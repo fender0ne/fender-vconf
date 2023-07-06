@@ -1,0 +1,30 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+p#thankYou {
+  color: sandybrown;
+}
+
+#wrapper {
+  width: 31em;
+  margin: auto;
+}
+
+#fender-vconf-definition {
+  outline-style: solid;
+  outline-color: sandybrown;
+  display: flex;
+  align-items: center;
+}
+#fender-vconf-definition > a {
+  width: 10em;
+  display: flex;
+  justify-content: center;
+}

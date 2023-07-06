@@ -1,0 +1,77 @@
+{
+  "search.exclude": {
+    "**/node_modules": true
+  },
+  "files.exclude": {
+    "**/node_modules/**": false,
+    "**/.git": true
+  },
+  // Editor
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Prettier
+  "prettier.trailingComma": "none",
+  "editor.autoClosingBrackets": "never",
+  "editor.autoClosingQuotes": "never",
+  // Name of the remote branch
+  "openInGitHub.remote.branch": "main",
+  // Copilot
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": true,
+    "markdown": true,
+    "javascript": true,
+    "typescript": true
+  },
+  // Enables ESLint as a formatter.
+  "eslint.format.enable": false,
+  // Controls whether a task for linting the whole workspace will be available.
+  "eslint.lintTask.enable": true,
+  "eslint.useESLintClass": true,
+  // cSpell
+  "cSpell.words": ["lintstagedrc"],
+  "cSpell.language": "en,en-US",
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    ".git",
+    ".vscode",
+    "vscode-extension",
+    ".husky"
+  ],
+  "cSpell.customDictionaries": {
+    "candleBox-dictionary": {
+      "name": "candleBox-GI-dictionary",
+      "path": "${workspaceRoot}/docs/dictionary/fender-vconf-dictionary.txt",
+      "scope": "workspace",
+      "addWords": true
+    }
+  },
+  // Live Server
+  "liveServer.settings.host": "localhost",
+  "liveServer.settings.port": 443,
+  "liveServer.settings.https": {
+    "enable": true,
+    "cert": "C:\\Users\\idmoi_000\\.mkcert\\127.0.0.1+1.pem",
+    "key": "C:\\Users\\idmoi_000\\.mkcert\\127.0.0.1+1-key.pem",
+    "passphrase": "12345"
+  },
+  "liveServer.settings.NoBrowser": false,
+  // "liveServer.settings.CustomBrowser": "chrome",
+  // "liveServer.settings.AdvanceCustomBrowserCmdLine": "chrome
+  // --remote-debugging-port=9222 --disable-web-security
+  // --user-data-dir=C:\\Chrome_dev_session"
+  "jestrunner.jestCommand": "npm run test:esm --",
+  "jest.jestCommandLine": "npm run test:esm --",
+  "jest.autoRun": {
+    "watch": false,
+    "onSave": "test-file",
+    "onStartup": ["all-tests"]
+  },
+  "jestrunner.debugOptions": {
+    "env": { "NODE_OPTIONS": "--experimental-vm-modules" }
+  }
+}

@@ -1,0 +1,37 @@
+// -------------------------------
+// Basic styling for demo project.
+// ----------------------------------------------------
+// Delete next lines when start working on the project:
+// ----------------------------------------------------
+
+$color-secondary: sandybrown;
+
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+p#thankYou {
+  color: $color-secondary;
+}
+
+#wrapper {
+  width: 31em;
+  margin: auto;
+}
+
+#fender-vconf-definition {
+  & > a {
+    width: 10em;
+    display: flex;
+    justify-content: center;
+  }
+  outline-style: solid;
+  outline-color: $color-secondary;
+  display: flex;
+  align-items: center;
+}

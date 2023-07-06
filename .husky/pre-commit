@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo
+echo "Husky: PRE-COMMIT hook started"
+echo
+
+echo ":: Running tests ::"
+npm run test:esm -- --watchAll=false
+echo
+
+# $? stores exit value of the last command
+# [ $? -eq 0 ] verify if the last command was successful
+[ $? -eq 0 ] && echo ":: Running lint-staged ::"
+echo
+[ $? -eq 0 ] && npx --no-install lint-staged
+echo
+
+[ $? -eq 0 ] && echo "Husky: PRE-COMMIT hook finished" && echo
+
+# for testing purposes: exit without comminting
+# echo ":: Testing purposes: canceling the commit ::"
+# echo
+# exit 1

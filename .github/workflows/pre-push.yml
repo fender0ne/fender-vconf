@@ -1,0 +1,64 @@
+name: Pre-Push Check
+run-name: ${{ github.actor }} is checking PR code before  ${{ github.event_name }}
+on: [push, pull_request]
+
+env:
+  DEFAULT_NUM_COMMIT: 1
+  ALL_COMMITS: 0
+  ONE_HUNDRED_COMMITS: 100
+  # We should determine how many commits to fetch: 1, some, or all
+  DEPTH_COMMIT: ${{ 0 }}
+  # Last pushed commits
+  FROM_COMMIT: ${{ github.event.before }}
+  TO_COMMIT: ${{ github.event.after }}
+  # First pushed commit but no commits yet in the remote repository
+  NO_COMMITS_YET: ${{ '0000000000000000000000000000000000000000' }}
+
+jobs:
+  Check-Code:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a '${{ github.event_name }}' event."
+      - run: echo "🐧 This job is now running on a '${{ runner.os }}' server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is '${{ github.ref }}' and your repository is '${{ github.repository }}'."
+      - name: What Workspace we are in?
+        run: echo "Your Workspace is '${{ github.workspace }}'."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: ${{ env.DEPTH_COMMIT }}
+      - name: FETCH-DEPTH ${{ env.DEPTH_COMMIT }}
+        run: echo "🔎 The fetch-depth is '${{ env.DEPTH_COMMIT }}'."
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Check with EsLint
+        run: npm run lint
+      - name: Check with prettier
+        run: npm run format
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: Pass test:esm
+        run: npm run test:esm
+      - name: Validates the first pushed commit with commitlint
+        if: ${{ github.event_name == 'push' && env.FROM_COMMIT == env.NO_COMMITS_YET }}
+        run: npx --no-install -- commitlint --config='.commitlintrc' --from=${{ env.TO_COMMIT }} --verbose
+      - name: Validates the last pushed commit with commitlint with a shallow checkout
+        if: ${{ github.event_name == 'push' && env.FROM_COMMIT != env.NO_COMMITS_YET  && env.DEPTH_COMMIT == 1 }}
+        run: git log -1 --pretty=format:"%s" | npx --no-install -- commitlint --config='.commitlintrc' --verbose
+      - name: Validates last pushed commits with commitlint
+        if: ${{ github.event_name == 'push' && env.FROM_COMMIT != env.NO_COMMITS_YET  && env.DEPTH_COMMIT != 1 }}
+        run: npx --no-install -- commitlint --config='.commitlintrc' --from=${{ env.FROM_COMMIT }} --verbose
+      - name: Validate PR commits with commitlint
+        if: github.event_name == 'pull_request'
+        run: npx --no -- commitlint --from=${{ github.event.pull_request.base.sha }} --to=${{ github.event.pull_request.head.sha }} --verbose
+      - run: echo "🍏 This job's status << ${{ job.status }} >>"

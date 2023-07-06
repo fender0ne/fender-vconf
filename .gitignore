@@ -1,0 +1,20 @@
+# Ignore the following directories
+node_modules/
+.vscode/chrome/
+# Some Private Notes
+__NOTES__/
+
+# Ignore all the files in the resources folder except the .gif and
+# .jpg files
+docs/resources/*
+!docs/resources/*.gif
+!docs/resources/*.jpg
+!docs/resources/*.png
+
+# Ignore .css files incliding the .css.map files
+*.css*
+!css/*.css
+
+# test coverage
+coverage/
+
